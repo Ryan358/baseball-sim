@@ -1,11 +1,13 @@
 [
     {
         "name": "Clayton Kershaw",
+        "number": "22",
         "position": "Pitcher"
     },
 
     {
         "name": "Will Smith",
+        "number": "16",
         "position": "Catcher"
     }
 ]
