@@ -1,13 +1,123 @@
-[
-    {
-        "name": "Clayton Kershaw",
-        "number": "22",
-        "position": "Pitcher"
-    },
+{
+    "home_team":
+        {
+            "name": "Dodgers",
+            "abbreviation": "LAD",
+            "players": [
+                {
+                    "name": "Sleve McDichael",
+                    "number": "1",
+                    "position": "Pitcher"
+                },
 
-    {
-        "name": "Will Smith",
-        "number": "16",
-        "position": "Catcher"
-    }
-]
+                {
+                    "name": "Onson Sweemey",
+                    "number": "2",
+                    "position": "Catcher"
+                },
+
+                {
+                    "name": "Darryl Archideld",
+                    "number": "3",
+                    "position": "First Base"
+                },
+
+                {
+                    "name": "Anatoli Smorin",
+                    "number": "4",
+                    "position": "Second Base"
+                },
+
+                {
+                    "name": "Rey McSriff",
+                    "number": "5",
+                    "position": "Shortstop"
+                },
+
+                {
+                    "name": "Glenallen Mixon",
+                    "number": "6",
+                    "position": "Third Base"
+                },
+
+                {
+                    "name": "Mario McRlwain",
+                    "number": "7",
+                    "position": "Right Field"
+                },
+
+                {
+                    "name": "Raul Chamgerlain",
+                    "number": "8",
+                    "position": "Center Field"
+                },
+
+                {
+                    "name": "Kevin Nogilny",
+                    "number": "9",
+                    "position": "Left Field"
+                }
+            ]
+        },
+
+    "away_team":
+        {
+            "name": "Giants",
+            "abbreviation": "SFG",
+            "players": [
+                {
+                    "name": "Willie Dustice",
+                    "number": "1",
+                    "position": "Pitcher"
+                },
+
+                {
+                    "name": "Jeromy Gride",
+                    "number": "2",
+                    "position": "Catcher"
+                },
+
+                {
+                    "name": "Scott Dourque",
+                    "number": "3",
+                    "position": "First Base"
+                },
+
+                {
+                    "name": "Shown Furcotte",
+                    "number": "4",
+                    "position": "Second Base"
+                },
+
+                {
+                    "name": "Dean Wesrey",
+                    "number": "5",
+                    "position": "Shortstop"
+                },
+
+                {
+                    "name": "Mike Truk",
+                    "number": "6",
+                    "position": "Third Base"
+                },
+
+                {
+                    "name": "Dwigt Rortugal",
+                    "number": "7",
+                    "position": "Right Field"
+                },
+
+                {
+                    "name": "Tim Sandaele",
+                    "number": "8",
+                    "position": "Center Field"
+                },
+
+                {
+                    "name": "Karl Dandleton",
+                    "number": "9",
+                    "position": "Left Field"
+                }
+            ]
+        }
+}
