@@ -1,7 +1,7 @@
 {
     "home_team":
         {
-            "name": "Dodgers",
+            "name": "Los Angeles Dodgers",
             "abbreviation": "LAD",
             "players": [
                 {
@@ -62,7 +62,7 @@
 
     "away_team":
         {
-            "name": "Giants",
+            "name": "San Francisco Giants",
             "abbreviation": "SFG",
             "players": [
                 {

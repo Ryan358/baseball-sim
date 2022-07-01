@@ -42,16 +42,16 @@ class Player:
         else:
             self.swung = False
 
-    def result(self, ball: Ball):
+    def result(self, ball: Ball, strikes: int, balls: int):
         if ball.hit:
             self.hit = True
             print("That's a hit!")
             return self.hit
-        if self.strikes == 3:
+        if strikes == 3:
             self.out = True
             print(f"{self.name} struck out!")
             return self.out
-        elif self.balls == 4:
+        elif balls == 4:
             self.walked = True
             print("Ball 4, that's a walk.")
             return self.walked
@@ -71,7 +71,7 @@ class Game:
 
     def at_bat(self, player: Player, ball: Ball):
         """Simulate a player's at bat"""
-        print(f"Now batting, number {self.number}, {self.name}!")
+        print(f"Now batting, number {player.number}, {player.name}!")
         ball.pitch()
         player.swing()
         player.result(ball)
@@ -93,16 +93,19 @@ def create_roster(team: str, roster: str, ) -> object:
     players = []
     with open(roster) as f:
         info = json.load(f)
+    team_info = [info[team]['name'], info[team]['abbreviation']]
     for i in range(len(info[team]["players"])):
-        players[i] = Player(info[team]["players"][i]['name'], info[team]["players"][i]["number"],
-                            info[team]["players"][i]['position'], None, False, False, False)
-    return info[team]["players"]
+        players.append(Player(info[team]["players"][i]['name'], info[team]["players"][i]["number"],
+                       info[team]["players"][i]['position'], None, False, False, False))
+    return team_info, players
 
 
 def main():
     """creates the roster of players"""
-    home_team = create_roster("home_team", "roster.json")
-    print(home_team)
+    home_team_name, home_team_players = create_roster("home_team", "roster.json")
+    away_team_name, away_team_players = create_roster("away_team", "roster.json")
+    print(f"{home_team_name[0]}: \n", *home_team_players, sep="\n", end="\n\n")
+    print(f"{away_team_name[0]}: \n", *away_team_players, sep="\n", end="\n\n")
 
 
 if __name__ == "__main__":
