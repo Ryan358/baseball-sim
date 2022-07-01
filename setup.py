@@ -74,7 +74,9 @@ class Game:
         print(f"Now batting, number {player.number}, {player.name}!")
         ball.pitch()
         player.swing()
-        player.result(ball)
+        player.result(ball, self.strikes, self.balls)
+        if player.out:
+            self.outs += 1
 
 
 class Field:

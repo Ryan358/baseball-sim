@@ -11,21 +11,14 @@ def main():
 
     game = setup.Game(home_team_name, away_team_name, 0, 1, 0, 0, 0)
     ball = setup.Ball(False, False, False, False)
+    runners = setup.Field(False, False, False, False, False)
+
     for i in range(innings):
         while game.outs < 3:
             while game.strikes < 3:
                 for player in home_team_players:
                     game.at_bat(player, ball)
-                    if game.out:
-                        break
-                if game.out:
-                    break
-                for player in away_team_players:
-                    game.at_bat(player, ball)
-                    if game.out:
-                        break
-                if game.out:
-                    break
+
 
 
 if __name__ == "__main__":
