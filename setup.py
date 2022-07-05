@@ -1,6 +1,7 @@
 """Create classes, etc"""
 import json
 import random
+import time
 
 
 class Ball:
@@ -18,6 +19,7 @@ class Ball:
             self.strike = True
         else:
             self.strike = False
+        return self.strike
 
 
 class Player:
@@ -41,20 +43,7 @@ class Player:
             self.swung = True
         else:
             self.swung = False
-
-    def result(self, ball: Ball, strikes: int, balls: int):
-        if ball.hit:
-            self.hit = True
-            print("That's a hit!")
-            return self.hit
-        if strikes == 3:
-            self.out = True
-            print(f"{self.name} struck out!")
-            return self.out
-        elif balls == 4:
-            self.walked = True
-            print("Ball 4, that's a walk.")
-            return self.walked
+        return self.swung
 
 
 class Game:
@@ -69,14 +58,31 @@ class Game:
         self.balls = balls
         self.strikes = strikes
 
+    def result(self, ball: Ball, strike: bool, swing: bool):
+        if strike and swing:
+            ball.hit = True
+        elif strike and not swing:
+            self.strikes += 1
+            print(f"Strike {self.strikes}!")
+        elif not strike and swing:
+            self.strikes += 1
+            print(f"Strike {self.strikes}!")
+        elif not strike and not swing:
+            self.balls += 1
+            print(f"Ball {self.balls}!")
+
     def at_bat(self, player: Player, ball: Ball):
         """Simulate a player's at bat"""
         print(f"Now batting, number {player.number}, {player.name}!")
-        ball.pitch()
-        player.swing()
-        player.result(ball, self.strikes, self.balls)
-        if player.out:
+        while self.strikes < 3 and self.balls < 4:
+            time.sleep(1)
+            self.result(ball, ball.pitch(), player.swing())
+            if ball.hit:
+                print("Hit!")
+                break
+        if self.strikes == 3:
             self.outs += 1
+            print("Strike 3, you're out!")
 
 
 class Field:
@@ -98,7 +104,7 @@ def create_roster(team: str, roster: str, ) -> object:
     team_info = [info[team]['name'], info[team]['abbreviation']]
     for i in range(len(info[team]["players"])):
         players.append(Player(info[team]["players"][i]['name'], info[team]["players"][i]["number"],
-                       info[team]["players"][i]['position'], None, False, False, False))
+                              info[team]["players"][i]['position'], None, False, False, False))
     return team_info, players
 
 

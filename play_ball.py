@@ -13,12 +13,7 @@ def main():
     ball = setup.Ball(False, False, False, False)
     runners = setup.Field(False, False, False, False, False)
 
-    for i in range(innings):
-        while game.outs < 3:
-            while game.strikes < 3:
-                for player in home_team_players:
-                    game.at_bat(player, ball)
-
+    game.at_bat(home_team_players[0], ball)
 
 
 if __name__ == "__main__":
