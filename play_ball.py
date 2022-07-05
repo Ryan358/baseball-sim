@@ -12,8 +12,9 @@ def main():
     game = setup.Game(home_team_name, away_team_name, 0, 1, 0, 0, 0)
     ball = setup.Ball(False, False, False, False)
     runners = setup.Field(False, False, False, False, False)
-
+    print("------------------------------------------------------------ \n\n")
     game.at_bat(home_team_players[0], ball)
+    return ball.hit
 
 
 if __name__ == "__main__":

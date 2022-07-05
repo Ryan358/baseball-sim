@@ -83,6 +83,8 @@ class Game:
                 break
         if self.strikes == 3:
             self.outs += 1
+            self.strikes = 0
+            self.balls = 0
             print("Strike 3, you're out!")
 
 
