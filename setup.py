@@ -74,6 +74,7 @@ class Game:
     def at_bat(self, player: Player, ball: Ball):
         """Simulate a player's at bat"""
         print(f"Now batting, number {player.number}, {player.name}!")
+        ball.hit = False
         while self.strikes < 3 and self.balls < 4:
             time.sleep(1)
             self.result(ball, ball.pitch(), player.swing())
