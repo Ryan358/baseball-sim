@@ -14,6 +14,7 @@ def main():
     runners = setup.Field(False, False, False, False, False)
     print("------------------------------------------------------------ \n\n")
     game.at_bat(home_team_players[0], ball)
+    game.field(home_team_players[0], ball)
     return ball.hit
 
 

@@ -58,6 +58,16 @@ class Game:
         self.balls = balls
         self.strikes = strikes
 
+    def reset(self, ball: Ball):
+        "reset necessary variables"
+        ball.live = False
+        ball.strike = False
+        ball.hit = False
+        ball.caught = False
+        self.outs = 0
+        self.strikes = 0
+        self.balls = 0
+
     def result(self, ball: Ball, strike: bool, swing: bool):
         if strike and swing:
             ball.hit = True
@@ -82,10 +92,19 @@ class Game:
                 print("Hit!")
                 break
         if self.strikes == 3:
-            self.outs += 1
-            self.strikes = 0
-            self.balls = 0
+            self.reset(ball)
+            player.out = True
             print("Strike 3, you're out!")
+
+    def field(self, player: Player, ball: Ball):
+        """Simulate a player's fielding"""
+        if random.random() < 0.4:
+            ball.caught = True
+            ball.hit = False
+            print("Caught!")
+            self.reset(ball)
+            player.out = True
+        return ball.hit
 
 
 class Field:
