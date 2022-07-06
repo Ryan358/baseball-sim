@@ -13,8 +13,13 @@ def main():
     ball = setup.Ball(False, False, False, False)
     runners = setup.Field(False, False, False, False, False)
     print("------------------------------------------------------------ \n\n")
-    game.at_bat(home_team_players[0], ball)
-    game.field(home_team_players[0], ball)
+
+    for i in range(len(home_team_players)):
+        game.at_bat(home_team_players[i], ball)
+        game.field(home_team_players[i], ball)
+        if game.outs == 3:
+            break
+
     return ball.hit
 
 

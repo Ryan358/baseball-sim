@@ -35,7 +35,7 @@ class Player:
         self.walked = walked
 
     def __str__(self):
-        return f"{self.name}, number {self.number}, position {self.position}"
+        return f'{self.name}, number {self.number}, position {self.position}'
 
     def swing(self):
         swing_chance = 0.6
@@ -59,12 +59,11 @@ class Game:
         self.strikes = strikes
 
     def reset(self, ball: Ball):
-        "reset necessary variables"
+        """reset necessary variables"""
         ball.live = False
         ball.strike = False
         ball.hit = False
         ball.caught = False
-        self.outs = 0
         self.strikes = 0
         self.balls = 0
 
@@ -83,27 +82,31 @@ class Game:
 
     def at_bat(self, player: Player, ball: Ball):
         """Simulate a player's at bat"""
-        print(f"Now batting, number {player.number}, {player.name}!")
+        time.sleep(1)
+        print(f"Now batting, number {player.number}, {player.name}! \n")
+        time.sleep(1)
         ball.hit = False
         while self.strikes < 3 and self.balls < 4:
             time.sleep(1)
             self.result(ball, ball.pitch(), player.swing())
             if ball.hit:
-                print("Hit!")
+                print("Hit! \n")
                 break
         if self.strikes == 3:
             self.reset(ball)
             player.out = True
-            print("Strike 3, you're out!")
+            print("Strike 3, you're out! \n")
 
     def field(self, player: Player, ball: Ball):
         """Simulate a player's fielding"""
-        if random.random() < 0.4:
+        time.sleep(1)
+        if ball.hit and random.random() < 0.6:
             ball.caught = True
             ball.hit = False
-            print("Caught!")
+            print("Caught! \n")
             self.reset(ball)
             player.out = True
+            self.outs += 1
         return ball.hit
 
 
