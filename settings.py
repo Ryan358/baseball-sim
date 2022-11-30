@@ -4,6 +4,17 @@ import random
 import time
 
 
+class Field:
+    """creates an object to keep track of the field state, runners, etc"""
+
+    def __init__(self, on_first, on_second, on_third, home, dugout):
+        self.on_first = on_first
+        self.on_second = on_second
+        self.on_third = on_third
+        self.scored = home
+        self.dugout = dugout
+
+
 class Ball:
     """Create a ball object with a strike, hit, caught, and live status"""
 
@@ -88,19 +99,12 @@ class Game:
             print("Strike 3, you're out!")
 
 
-class Field:
-    """creates an object to keep track of the field state, runners, etc"""
-
-    def __init__(self, on_first, on_second, on_third, scored, dugout):
-        self.on_first = on_first
-        self.on_second = on_second
-        self.on_third = on_third
-        self.scored = scored
-        self.dugout = dugout
-
-
 def create_roster(team: str, roster: str, ) -> object:
-    """Create a list of players from a json file"""
+    """Create a list of players from a json file
+    :param team:
+    :param roster:
+    :return:
+    """
     players = []
     with open(roster) as f:
         info = json.load(f)
