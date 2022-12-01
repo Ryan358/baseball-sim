@@ -7,12 +7,8 @@ import time
 class Field:
     """creates an object to keep track of the field state, runners, etc"""
 
-    def __init__(self, on_first, on_second, on_third, home, dugout):
-        self.on_first = on_first
-        self.on_second = on_second
-        self.on_third = on_third
-        self.scored = home
-        self.dugout = dugout
+    def __init__(self, bases: dict):
+        self.bases = bases
 
 
 class Ball:
@@ -36,9 +32,10 @@ class Ball:
 class Player:
     """Create a player class with a name, position, swung, hits, and out status"""
 
-    def __init__(self, name, number, position, swung, hit, out, walked):
+    def __init__(self, name, number, team, position, swung, hit, out, walked):
         self.name = name
         self.number = number
+        self.team = team
         self.position = position
         self.swung = swung
         self.hit = hit
@@ -60,11 +57,13 @@ class Player:
 class Game:
     """Create a game state object"""
 
-    def __init__(self, home_team, away_team, score, inning, outs, balls, strikes):
+    def __init__(self, home_team, away_team, field: Field, score: dict, inning, batting_order, outs, balls, strikes):
         self.home_team = home_team
         self.away_team = away_team
+        self.field = field
         self.score = score
         self.inning = inning
+        self.order = batting_order
         self.outs = outs
         self.balls = balls
         self.strikes = strikes
@@ -82,7 +81,19 @@ class Game:
             self.balls += 1
             print(f"Ball {self.balls}!")
 
-    def at_bat(self, player: Player, ball: Ball):
+    def advance_runners(self, player: Player, field: Field):
+        field.bases["home"] = field.bases["third"]
+        field.bases["third"] = field.bases["second"]
+        field.bases["second"] = field.bases["first"]
+        field.bases["first"] = player
+        if field.bases["home"] is not None:
+            print(f"{field.bases['home'].name} scores!")
+            self.score[player.team] += 1
+            field.bases["home"] = None
+
+
+
+    def at_bat(self, player: Player, ball: Ball, field: Field):
         """Simulate a player's at bat"""
         print(f"Now batting, number {player.number}, {player.name}!")
         ball.hit = False
@@ -91,26 +102,48 @@ class Game:
             self.result(ball, ball.pitch(), player.swing())
             if ball.hit:
                 print("Hit!")
+                self.advance_runners(player, field)
                 break
         if self.strikes == 3:
             self.outs += 1
             self.strikes = 0
             self.balls = 0
-            print("Strike 3, you're out!")
+            print("You're out!")
+        elif self.balls == 4:
+            self.balls = 0
+            self.strikes = 0
+            player.walked = True
+            self.advance_runners(player, field)
+            print("Walked!")
+
+    def inning_half(self, team, field: Field):
+        while self.outs < 3:
+            self.at_bat(team[self.order[team[0].team]], Ball(False, False, False, False), field)
+            self.order[team[0].team] += 1
+            if self.order[team[0].team] == 9:
+                self.order[team[0].team] = 0
+
+    def inning_change(self):
+        self.inning += 1
+        self.outs = 0
+        self.balls = 0
+        self.strikes = 0
+        print(f"Top of the {self.inning}th inning!")
+
+    def play_inning(self, home, away, field: Field):
+        self.inning_half(home, field)
+        self.inning_half(away, field)
+        self.inning_change()
 
 
 def create_roster(team: str, roster: str, ) -> object:
-    """Create a list of players from a json file
-    :param team:
-    :param roster:
-    :return:
-    """
+    """Create a list of players from a json file"""
     players = []
     with open(roster) as f:
         info = json.load(f)
     team_info = [info[team]['name'], info[team]['abbreviation']]
     for i in range(len(info[team]["players"])):
-        players.append(Player(info[team]["players"][i]['name'], info[team]["players"][i]["number"],
+        players.append(Player(info[team]["players"][i]['name'], info[team]["players"][i]["number"], info[team]["name"],
                               info[team]["players"][i]['position'], None, False, False, False))
     return team_info, players
 
