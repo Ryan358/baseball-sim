@@ -11,11 +11,11 @@ def main():
                          {away_team_name[0]: 0, home_team_name[0]: 0}, 0, 0, 0)
     print(f"{home_team_name[0]}: \n", *home_team_players, sep="\n", end="\n\n")
     print(f"{away_team_name[0]}: \n", *away_team_players, sep="\n", end="\n\n")
-
-    ball = settings.Ball(False, False, False, False)
-
+    num_innings = 9
     print("------------------------------------------------------------ \n\n")
-    game.play_inning(home_team_players, away_team_players, field)
+    for i in range(num_innings):
+        game.play_inning(home_team_players, away_team_players, field)
+        print("------------------------------------------------------------ \n\n")
 
 
 if __name__ == "__main__":

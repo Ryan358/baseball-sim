@@ -45,8 +45,11 @@ class Player:
     def __str__(self):
         return f"{self.name}, number {self.number}, position {self.position}"
 
-    def swing(self):
-        swing_chance = 0.6
+    def swing(self, ball: Ball):
+        if ball.strike:
+            swing_chance = 0.65
+        else:
+            swing_chance = 0.30
         if random.random() < swing_chance:
             self.swung = True
         else:
@@ -81,6 +84,19 @@ class Game:
             self.balls += 1
             print(f"Ball {self.balls}!")
 
+    def fielding(self, ball: Ball):
+        if random.random() < 0.69:
+            ball.caught = True
+            self.outs += 1
+            print("Caught! You're out!")
+        else:
+            ball.caught = False
+        return ball.caught
+
+    def clear_count(self):
+        self.strikes = 0
+        self.balls = 0
+
     def advance_runners(self, player: Player, field: Field):
         field.bases["home"] = field.bases["third"]
         field.bases["third"] = field.bases["second"]
@@ -91,30 +107,32 @@ class Game:
             self.score[player.team] += 1
             field.bases["home"] = None
 
-
-
     def at_bat(self, player: Player, ball: Ball, field: Field):
         """Simulate a player's at bat"""
         print(f"Now batting, number {player.number}, {player.name}!")
         ball.hit = False
         while self.strikes < 3 and self.balls < 4:
             time.sleep(1)
-            self.result(ball, ball.pitch(), player.swing())
+            self.result(ball, ball.pitch(), player.swing(ball))
             if ball.hit:
                 print("Hit!")
-                self.advance_runners(player, field)
+                self.clear_count()
+                time.sleep(1)
+                self.fielding(ball)
+                if not ball.caught:
+                    self.advance_runners(player, field)
                 break
         if self.strikes == 3:
             self.outs += 1
-            self.strikes = 0
-            self.balls = 0
+            self.clear_count()
             print("You're out!")
+            time.sleep(1)
         elif self.balls == 4:
-            self.balls = 0
-            self.strikes = 0
+            self.clear_count()
             player.walked = True
             self.advance_runners(player, field)
             print("Walked!")
+            time.sleep(1)
 
     def inning_half(self, team, field: Field):
         while self.outs < 3:
@@ -122,18 +140,26 @@ class Game:
             self.order[team[0].team] += 1
             if self.order[team[0].team] == 9:
                 self.order[team[0].team] = 0
+        self.outs = 0
+        field.bases["first"] = None
+        field.bases["second"] = None
+        field.bases["third"] = None
+        field.bases["home"] = None
+        print("Switching sides!")
+        time.sleep(1)
 
-    def inning_change(self):
+    def inning_change(self, home_team, away_team):
         self.inning += 1
         self.outs = 0
-        self.balls = 0
-        self.strikes = 0
-        print(f"Top of the {self.inning}th inning!")
+        self.clear_count()
+        print(f"Top of the {self.inning}th inning! The score is {self.score[home_team[0].team]} to "
+              f"{self.score[away_team[0].team]}")
+        time.sleep(1)
 
     def play_inning(self, home, away, field: Field):
         self.inning_half(home, field)
         self.inning_half(away, field)
-        self.inning_change()
+        self.inning_change(home, away)
 
 
 def create_roster(team: str, roster: str, ) -> object:
