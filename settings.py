@@ -145,21 +145,26 @@ class Game:
         field.bases["second"] = None
         field.bases["third"] = None
         field.bases["home"] = None
-        print("Switching sides!")
+
         time.sleep(1)
 
-    def inning_change(self, home_team, away_team):
+    def inning_change(self, home_team, away_team, num):
         self.inning += 1
         self.outs = 0
         self.clear_count()
-        print(f"Top of the {self.inning}th inning! The score is {self.score[home_team[0].team]} to "
-              f"{self.score[away_team[0].team]}")
+        if self.inning == num+1:
+            print(f"Game over! The score was {self.home_team[1]} {self.score[home_team[0].team]} to {self.away_team[1]} "
+                  f"{self.score[away_team[0].team]}!")
+        else:
+            print(f"Top of the {self.inning} inning! The score is {self.home_team[1]} {self.score[home_team[0].team]} "
+                  f"to {self.away_team[1]} {self.score[away_team[0].team]}!")
         time.sleep(1)
 
-    def play_inning(self, home, away, field: Field):
+    def play_inning(self, home, away, field: Field, num):
         self.inning_half(home, field)
+        print("Switching sides!")
         self.inning_half(away, field)
-        self.inning_change(home, away)
+        self.inning_change(home, away, num)
 
 
 def create_roster(team: str, roster: str, ) -> object:

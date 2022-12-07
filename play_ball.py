@@ -14,7 +14,7 @@ def main():
     num_innings = 9
     print("------------------------------------------------------------ \n\n")
     for i in range(num_innings):
-        game.play_inning(home_team_players, away_team_players, field)
+        game.play_inning(home_team_players, away_team_players, field, num_innings)
         print("------------------------------------------------------------ \n\n")
 
 
