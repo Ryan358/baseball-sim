@@ -1,7 +1,5 @@
 import settings
 
-innings = 1
-
 
 def main():
     home_team_name, home_team_players = settings.create_roster("home_team", "roster.json")
